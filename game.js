@@ -1,12 +1,14 @@
 // Initialization
-function init() {
-  var winningScore = (document.querySelector(".winningScore").textContent = "");
-  var score = [0, 0];
-  var roundScore = 0;
-  var activePlayer = 0;
-  var isPlaying = true;
+var winningScore = (document.querySelector(".winningScore").textContent = "");
+var score = [0, 0];
+var currentValue = 0;
+var activePlayer = 0;
+var isPlaying = true;
 
+function init() {
   // hiding the dice at the beginning
+  document.querySelector(".winningScore").value = "";
+
   document.getElementById("die1").style.display = "none";
   document.getElementById("die2").style.display = "none";
 
@@ -55,7 +57,7 @@ document.getElementById("btnRoll").addEventListener("click", function roll() {
     if (die1Random !== 1 && die2Random !== 1) {
       currentValue = die1Random + die2Random;
       document.querySelector(
-        "#currentValue" + activePlayer
+        "#currentValue" + (activePlayer + 1)
       ).textContent = currentValue;
     } else nextPlayer(); // if there is a 1 on one die, it's the next player's turn
   }
@@ -68,7 +70,7 @@ document.getElementById("btnHold").addEventListener("click", function roll() {
     score[activePlayer] += currentValue; // adding the current score to the player's global score
 
     // updating the player's current score
-    document.querySelector("#score" + activePlayer).textContent =
+    document.querySelector("#score" + (activePlayer + 1)).textContent =
       score[activePlayer];
 
     // getting and setting the winning score
@@ -87,7 +89,7 @@ document.getElementById("btnHold").addEventListener("click", function roll() {
         .querySelector(".player" + activePlayer + "Zone")
         .classList.add("winner");
       document.querySelector(
-        ".player" + activePlayer + "Zone".classList.remove("active")
+        ".player" + activePlayer + 1 + "Zone".classList.remove("active")
       );
       isPlaying = false;
     } else nextPlayer();
@@ -96,9 +98,9 @@ document.getElementById("btnHold").addEventListener("click", function roll() {
 
 // Player change
 function nextPlayer() {
-  if (activePlayer === 1) {
-    activePlayer = 2;
-  } else activePlayer = 1;
+  if (activePlayer === 0) {
+    activePlayer = 1;
+  } else activePlayer = 0;
 
   currentValue = 0;
 
@@ -107,6 +109,18 @@ function nextPlayer() {
   document.getElementById("currentValue2").textContent = "0";
 
   // toggling the "active" class
-  document.querySelector("player1Zone").classList.toggle("active");
-  document.querySelector("player2Zone").classList.toggle("active");
+  document.querySelector(".player1Zone").classList.toggle("active");
+  document.querySelector(".player2Zone").classList.toggle("active");
 }
+
+// son de lancé de dés à chaque "roll"
+// échelle en bas montrant l'évolution des points de chaque joueur (comme une course) avec ligne d'arrivée
+// lorsqu'il y a un double, si le joueur décide de garder la somme, elle lui est augmentée (comme d'habitude),mais elle est aussi retirée à l'autre joueur
+// lorsqu'un "1" apparaît sur un dé, ça devient directemnt le tour de l'autre joueur
+// page de garde avec le nom du jeu, et 2 inputs pour insérer le nom des joueurs (et reprendre les noms ensuite)
+// ajouter pictogrammes pour les boutons
+// bouton "?" avec règles du jeu
+// changer format/CSS de la page (background image...)
+// "Winner!" non pas à la place du nom du joueur gagnant mais dans un pop-up avec confetti sur toute la page
+
+// changer addEventListener à onClick
