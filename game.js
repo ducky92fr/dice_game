@@ -85,17 +85,17 @@ document.getElementById("btnHold").addEventListener("click", function roll() {
 
     // when there's a winner
     if (score[activePlayer] >= winningScore) {
-      console.log(activePlayer);
+      // overlay
+      const win = document.getElementById("overlay");
+      win.style.display = "block";
+      setTimeout(() => (win.style.display = "none"), 5000);
 
-      document.querySelector("#name" + (activePlayer + 1)).textContent =
-        "Winner!";
       document
         .querySelector(".player" + (activePlayer + 1) + "Zone")
         .classList.add("winner");
       document
         .querySelector(".player" + (activePlayer + 1) + "Zone")
         .classList.remove("active");
-      isPlaying = false;
     } else nextPlayer();
   }
 });
@@ -117,7 +117,6 @@ function nextPlayer() {
   document.querySelector(".player2Zone").classList.toggle("active");
 }
 
-// son de lancé de dés à chaque "roll"
 // échelle en bas montrant l'évolution des points de chaque joueur (comme une course) avec ligne d'arrivée
 // lorsqu'il y a un double, si le joueur décide de garder la somme, elle lui est augmentée (comme d'habitude),mais elle est aussi retirée à l'autre joueur
 // lorsqu'un "1" apparaît sur un dé, ça devient directemnt le tour de l'autre joueur
@@ -125,6 +124,6 @@ function nextPlayer() {
 // ajouter pictogrammes pour les boutons
 // bouton "?" avec règles du jeu
 // changer format/CSS de la page (background image...)
-// "Winner!" non pas à la place du nom du joueur gagnant mais dans un pop-up avec confetti sur toute la page
 
 // changer addEventListener à onClick
+// pb ac New Game
