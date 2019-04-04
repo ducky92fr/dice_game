@@ -29,6 +29,7 @@ function init() {
   // remove "active" class
   document.querySelector(".player1Zone").classList.remove("active");
   document.querySelector(".player2Zone").classList.remove("active");
+  document.querySelector(".player1Zone").classList.add("active");
 }
 init();
 
@@ -84,13 +85,16 @@ document.getElementById("btnHold").addEventListener("click", function roll() {
 
     // when there's a winner
     if (score[activePlayer] >= winningScore) {
-      document.querySelector("#name" + activePlayer).textContent = "Winner!";
+      console.log(activePlayer);
+
+      document.querySelector("#name" + (activePlayer + 1)).textContent =
+        "Winner!";
       document
-        .querySelector(".player" + activePlayer + "Zone")
+        .querySelector(".player" + (activePlayer + 1) + "Zone")
         .classList.add("winner");
-      document.querySelector(
-        ".player" + activePlayer + 1 + "Zone".classList.remove("active")
-      );
+      document
+        .querySelector(".player" + (activePlayer + 1) + "Zone")
+        .classList.remove("active");
       isPlaying = false;
     } else nextPlayer();
   }

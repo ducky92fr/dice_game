@@ -10,21 +10,27 @@
   </head>
 
   <body>
+    <!-- <div id="overlay">
+      <span class="close-or-restart">X</span>
+      <span class="text">Winner</span>
+      <span class="player-name"></span>
+    </div> -->
+
     <div class="gameBoard">
-      <header>
-        <button id="btnNew">NEW GAME</button>
+      <div class="header">
+        <button class="btn" id="btnNew">NEW GAME</button>
         <input
           type="text"
           class="winningScore"
           placeholder="Score to reach to win"
         />
-      </header>
+      </div>
 
       <div class="container">
         <div class="player1Zone active">
           <div class="playerName" id="name1">PLAYER 1</div>
           <div class="playerScore" id="score1"></div>
-          <div class="playerCurrentBox">
+          <div class="playerCurrentBox" id="player1CurrentBox">
             <div class="playerCurrentLabel">CURRENT DICE VALUE</div>
             <div class="playerCurrentValue" id="currentValue1">0</div>
           </div>
@@ -33,7 +39,7 @@
         <div class="player2Zone">
           <div class="playerName" id="name2">PLAYER 2</div>
           <div class="playerScore" id="score2"></div>
-          <div class="playerCurrentBox">
+          <div class="playerCurrentBox" id="player2CurrentBox">
             <div class="playerCurrentLabel">CURRENT DICE VALUE</div>
             <div class="playerCurrentValue" id="currentValue2">0</div>
           </div>
@@ -43,10 +49,8 @@
       <img src="./img/dice-4.png" alt="Dice" id="die1" />
       <img src="./img/dice-5.png" alt="Dice" id="die2" />
 
-      <div class="commands">
-        <button id="btnRoll">ROLL DICE</button>
-        <button id="btnHold">HOLD</button>
-      </div>
+      <button class="btn" id="btnRoll">ROLL DICE</button>
+      <button class="btn" id="btnHold">HOLD</button>
     </div>
   </body>
 </html>
