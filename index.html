@@ -11,8 +11,34 @@
 
   <body>
     <div class="pageCover">
-      <input type="text" placeholder="Player1's name" id="player1" />
-      <input type="text" placeholder="Player2's name" id="player2" />
+      <h1>The Skunk Dice Game</h1>
+      <img src="./skunk (2).png" id="skunk" />
+      <input
+        class="inputName"
+        type="text"
+        placeholder="Player1's name"
+        id="player1"
+      />
+      <input
+        class="inputName"
+        type="text"
+        placeholder="Player2's name"
+        id="player2"
+      />
+      <p>
+        Rules:<br />
+        The object of the game is to be the first player to score 100 points (or
+        another number if defined). This is done by the rolling of two dice.
+        Players play by turns. To accumulate points, a pair of dice is rolled. A
+        player gets the total of the dice, unless a "one" comes up, which is
+        called a skunk (like the animal), in which case he gets no point and
+        it's the other player's turn. If two skunks come up, he loses all his
+        points since the beginning of the game and it's the other player's turn.
+        And if a player gets a "double", he gets the total of the dice but the
+        other player gets minus the total. If a "one" doesn't occur, the player
+        may choose either to try for more points by rolling the dice again, or
+        to stop and keep what he or she has accumulated.
+      </p>
     </div>
     <div id="overlay">
       <div id="text">.</div>
