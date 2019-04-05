@@ -213,3 +213,17 @@ button:hover {
   top: 80px;
   left: 45%;
 }
+.pageCover {
+  width: 100vw;
+  height: 60rem;
+  background-image: url("./background.jpg");
+  background-size: cover;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  opacity: 1;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

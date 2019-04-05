@@ -10,15 +10,19 @@
   </head>
 
   <body>
+    <div class="pageCover">
+      <input type="text" placeholder="Player1's name" id="player1" />
+      <input type="text" placeholder="Player2's name" id="player2" />
+    </div>
     <div id="overlay">
-      <div id="text">Won! 🎉</div>
+      <div id="text">.</div>
     </div>
 
     <div class="gameBoard">
       <div class="header">
         <button class="btn" id="btnNew">NEW GAME</button>
         <input
-          type="text"
+          type="number"
           class="winningScore"
           placeholder="Score to reach to win"
         />

@@ -5,10 +5,30 @@ var currentValue = 0;
 var activePlayer = 0;
 var die1Random;
 var die2Random;
+const displayWinner = document.getElementById("text");
+var p1Name = "Player1";
+var p2Name = "Player2";
+
 function random() {
   var dieRandom = Math.floor(Math.random() * 6 + 1);
   return dieRandom;
 }
+
+window.onkeydown = function(e) {
+  if (e.keyCode === 13) {
+    document.getElementsByClassName("pageCover")[0].style.display = "none";
+    // p1Name récupère valeur de document.getElementById("player1"). Si c'est vide donc empty strings donc false donc va afficher "Player1", sinon va afficher le value "inputé"
+    p1Name = document.getElementById("player1").value
+      ? document.getElementById("player1").value
+      : "Player1";
+    p2Name = document.getElementById("player2").value
+      ? document.getElementById("player2").value
+      : "Player2";
+
+    document.getElementById("name1").textContent = p1Name;
+    document.getElementById("name2").textContent = p2Name;
+  }
+};
 
 function init() {
   const winningScoreInputReset = (document.querySelector(
@@ -29,8 +49,6 @@ function init() {
   ).textContent = "0");
 
   // changing the players name
-  document.getElementById("name1").textContent = "Player1";
-  document.getElementById("name2").textContent = "Player2";
 
   // remove "winner" class
   document.querySelector(".player1Zone").classList.remove("winner");
@@ -43,7 +61,6 @@ function init() {
 }
 
 init();
-
 // Click on NEW GAME BUTTON
 document.getElementById("btnNew").addEventListener("click", init);
 
@@ -66,7 +83,6 @@ document.getElementById("btnRoll").addEventListener("click", function roll() {
 
   // Update current score if no 1 on dice
   if (die1Random !== 1 && die2Random !== 1 && die1Random !== die2Random) {
-    console.log("pas de 1 et pas de double");
     currentValue = die1Random + die2Random;
     document.querySelector(
       "#currentValue" + (activePlayer + 1)
@@ -76,7 +92,6 @@ document.getElementById("btnRoll").addEventListener("click", function roll() {
     die2Random !== 1 &&
     die1Random === die2Random
   ) {
-    console.log("on a un double (mais pas de 1)");
     currentValue = die1Random + die2Random;
     if (activePlayer === 0) {
       document.querySelector(
@@ -90,19 +105,14 @@ document.getElementById("btnRoll").addEventListener("click", function roll() {
       document.querySelector("#currentValue1").textContent = -currentValue;
     }
   } else if (die1Random === 1 && die2Random === 1) {
-    console.log(die1Random);
-    console.log(die2Random);
-    console.log("on a deux 1");
     doubleSkunk();
   } else if (die1Random === 1 || die2Random === 1) {
-    console.log("on a un 1");
     nextPlayer();
   }
 });
 
 function doubleSkunk() {
   score[activePlayer] = 0;
-  console.log(score[activePlayer]);
   document.querySelector("#score" + (activePlayer + 1)).textContent =
     score[activePlayer];
   nextPlayer();
@@ -147,6 +157,9 @@ document.getElementById("btnHold").addEventListener("click", function roll() {
 
     // when there's a winner
     if (score[activePlayer] >= winningScore) {
+      const nameWinner =
+        activePlayer === 0 ? `${p1Name} wins! 🎉` : `${p2Name} wins! 🎉`;
+      displayWinner.textContent = nameWinner;
       // overlay
       const win = document.getElementById("overlay");
       win.style.display = "block";
@@ -158,8 +171,7 @@ document.getElementById("btnHold").addEventListener("click", function roll() {
       document
         .querySelector(".player" + (activePlayer + 1) + "Zone")
         .classList.remove("active");
-    } else console.log("on va au joueur suivant");
-    nextPlayer();
+    } else nextPlayer();
   } // adding the current score to the player's global score
   else if (die1Random !== 1 && die2Random !== 1 && die1Random === die2Random) {
     score[activePlayer] += currentValue;
@@ -191,6 +203,8 @@ document.getElementById("btnHold").addEventListener("click", function roll() {
     // when there's a winner
     if (score[activePlayer] >= winningScore) {
       // overlay
+      console.dir(activePlayer);
+      console.log(activePlayer);
       const win = document.getElementById("overlay");
       win.style.display = "block";
       setTimeout(() => (win.style.display = "none"), 5000);
@@ -201,16 +215,11 @@ document.getElementById("btnHold").addEventListener("click", function roll() {
       document
         .querySelector(".player" + (activePlayer + 1) + "Zone")
         .classList.remove("active");
-    } else console.log("on va au joueur suivant");
-    nextPlayer();
+    } else nextPlayer();
   }
 });
 
 // échelle en bas montrant l'évolution des points de chaque joueur (comme une course) avec ligne d'arrivée
 // lorsqu'il y a un double, si le joueur décide de garder la somme, elle lui est augmentée (comme d'habitude),mais elle est aussi retirée à l'autre joueur
 
-// page de garde avec le nom du jeu, et 2 inputs pour insérer le nom des joueurs (et reprendre les noms ensuite)
 // bouton "?" avec règles du jeu
-
-// pb ac New Game button
-// add the name of the winner
