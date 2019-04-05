@@ -3,20 +3,24 @@ var winningScore = (document.querySelector(".winningScore").textContent = "");
 var score = [0, 0];
 var currentValue = 0;
 var activePlayer = 0;
-var isPlaying = true;
 
 function init() {
+  const winningScoreInputReset = (document.querySelector(
+    ".winningScore"
+  ).value = "");
   // hiding the dice at the beginning
-  document.querySelector(".winningScore").value = "";
-
-  document.getElementById("die1").style.display = "none";
-  document.getElementById("die2").style.display = "none";
+  const die1Reset = (document.getElementById("die1").style.display = "none");
+  const die2Reset = (document.getElementById("die2").style.display = "none");
 
   // resetting the scores (global and current)
-  document.getElementById("score1").textContent = "0";
-  document.getElementById("score2").textContent = "0";
-  document.getElementById("currentValue1").textContent = "0";
-  document.getElementById("currentValue2").textContent = "0";
+  const score1Reset = (document.getElementById("score1").textContent = "0");
+  const score2Reset = (document.getElementById("score2").textContent = "0");
+  const currentValue1Reset = (document.getElementById(
+    "currentValue1"
+  ).textContent = "0");
+  const currentValue2Reset = (document.getElementById(
+    "currentValue2"
+  ).textContent = "0");
 
   // changing the players name
   document.getElementById("name1").textContent = "Player1";
@@ -31,6 +35,7 @@ function init() {
   document.querySelector(".player2Zone").classList.remove("active");
   document.querySelector(".player1Zone").classList.add("active");
 }
+
 init();
 
 // Click on NEW GAME BUTTON
@@ -38,73 +43,72 @@ document.getElementById("btnNew").addEventListener("click", init);
 
 // Click on ROLL BUTTON
 document.getElementById("btnRoll").addEventListener("click", function roll() {
-  if (isPlaying) {
-    // if it's the current player's turn
-    // Getting random numbers for the dice :
-    var die1Random = Math.floor(Math.random() * 6 + 1);
-    var die2Random = Math.floor(Math.random() * 6 + 1);
+  // if it's the current player's turn
+  // Getting random numbers for the dice :
+  var die1Random = Math.floor(Math.random() * 6 + 1);
+  var die2Random = Math.floor(Math.random() * 6 + 1);
 
-    var die1 = document.getElementById("die1");
-    var die2 = document.getElementById("die2");
+  var die1 = document.getElementById("die1");
+  var die2 = document.getElementById("die2");
 
-    die1.style.display = "block";
-    die2.style.display = "block";
+  die1.style.display = "block";
+  die2.style.display = "block";
 
-    // Display the image depending on the random dice numbers gotten
-    die1.src = "./img/dice-" + die1Random + ".png";
-    die2.src = "./img/dice-" + die2Random + ".png";
+  // Display the image depending on the random dice numbers gotten
+  die1.src = "./img/dice-" + die1Random + ".png";
+  die2.src = "./img/dice-" + die2Random + ".png";
 
-    // Update current score if no 1 on dice
-    if (die1Random !== 1 && die2Random !== 1) {
-      currentValue = die1Random + die2Random;
+  // Update current score if no 1 on dice
+  if (die1Random !== 1 && die2Random !== 1 && die1Random !== die2Random) {
+    console.log("pas de 1 et pas de double");
+    currentValue = die1Random + die2Random;
+    document.querySelector(
+      "#currentValue" + (activePlayer + 1)
+    ).textContent = currentValue;
+  } else if (
+    die1Random !== 1 &&
+    die2Random !== 1 &&
+    die1Random === die2Random
+  ) {
+    console.log("on a un double (mais pas de 1)");
+    currentValue = die1Random + die2Random;
+    if (activePlayer === 0) {
       document.querySelector(
         "#currentValue" + (activePlayer + 1)
       ).textContent = currentValue;
-    } else nextPlayer(); // if there is a 1 on one die, it's the next player's turn
-  }
-});
-
-// Click on HOLD BUTTON
-document.getElementById("btnHold").addEventListener("click", function roll() {
-  if (isPlaying) {
-    // if it's the current player's turn
-    score[activePlayer] += currentValue; // adding the current score to the player's global score
-
-    // updating the player's current score
-    document.querySelector("#score" + (activePlayer + 1)).textContent =
-      score[activePlayer];
-
-    // getting and setting the winning score
-    var input = document.querySelector(".winningScore").value;
-    var winningScore;
-    if (input) {
-      winningScore = input;
+      document.querySelector("#currentValue2").textContent = -currentValue;
     } else {
-      winningScore = 100;
+      document.querySelector(
+        "#currentValue" + (activePlayer + 1)
+      ).textContent = currentValue;
+      document.querySelector("#currentValue1").textContent = -currentValue;
     }
-
-    // when there's a winner
-    if (score[activePlayer] >= winningScore) {
-      // overlay
-      const win = document.getElementById("overlay");
-      win.style.display = "block";
-      setTimeout(() => (win.style.display = "none"), 5000);
-
-      document
-        .querySelector(".player" + (activePlayer + 1) + "Zone")
-        .classList.add("winner");
-      document
-        .querySelector(".player" + (activePlayer + 1) + "Zone")
-        .classList.remove("active");
-    } else nextPlayer();
+  } else if (die1Random === 1 && die2Random === 1) {
+    console.log(die1Random);
+    console.log(die2Random);
+    console.log("on a deux 1");
+    doubleSkunk();
+  } else if (die1Random === 1 || die2Random === 1) {
+    console.log("on a un 1");
+    nextPlayer();
   }
 });
+
+function doubleSkunk() {
+  score[activePlayer] = "0";
+  console.log(score[activePlayer]);
+  document.querySelector("#score" + (activePlayer + 1)).textContent =
+    score[activePlayer];
+  nextPlayer();
+}
 
 // Player change
 function nextPlayer() {
   if (activePlayer === 0) {
     activePlayer = 1;
-  } else activePlayer = 0;
+  } else {
+    activePlayer = 0;
+  }
 
   currentValue = 0;
 
@@ -117,6 +121,40 @@ function nextPlayer() {
   document.querySelector(".player2Zone").classList.toggle("active");
 }
 
+// Click on HOLD BUTTON
+document.getElementById("btnHold").addEventListener("click", function roll() {
+  // if it's the current player's turn
+  score[activePlayer] += currentValue; // adding the current score to the player's global score
+
+  // updating the player's current score
+  document.querySelector("#score" + (activePlayer + 1)).textContent =
+    score[activePlayer];
+
+  // getting and setting the winning score
+  var input = document.querySelector(".winningScore").value;
+  var winningScore;
+  if (input) {
+    winningScore = input;
+  } else {
+    winningScore = 100;
+  }
+
+  // when there's a winner
+  if (score[activePlayer] >= winningScore) {
+    // overlay
+    const win = document.getElementById("overlay");
+    win.style.display = "block";
+    setTimeout(() => (win.style.display = "none"), 5000);
+
+    document
+      .querySelector(".player" + (activePlayer + 1) + "Zone")
+      .classList.add("winner");
+    document
+      .querySelector(".player" + (activePlayer + 1) + "Zone")
+      .classList.remove("active");
+  } else nextPlayer();
+});
+
 // échelle en bas montrant l'évolution des points de chaque joueur (comme une course) avec ligne d'arrivée
 // lorsqu'il y a un double, si le joueur décide de garder la somme, elle lui est augmentée (comme d'habitude),mais elle est aussi retirée à l'autre joueur
 // lorsqu'un "1" apparaît sur un dé, ça devient directemnt le tour de l'autre joueur
@@ -126,4 +164,6 @@ function nextPlayer() {
 // changer format/CSS de la page (background image...)
 
 // changer addEventListener à onClick
-// pb ac New Game
+// pb ac New Game button
+// add the name of the winner
+// commence pas au 1er lancé

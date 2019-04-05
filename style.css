@@ -122,8 +122,16 @@ input:focus::-webkit-input-placeholder {
   font-weight: 300;
   border: 3px solid;
   color: white;
-  background-color: rgb(0, 140, 255);
+  text-shadow: -1px -1px 0 rgb(112, 112, 112), 1px -1px 0 rgb(112, 112, 112),
+    -1px 1px 0 rgb(112, 112, 112), 1px 1px 0 rgb(112, 112, 112);
   border-radius: 20%;
+}
+.active .playerName#name1 {
+  background-color: rgb(249, 216, 250);
+}
+
+.active .playerName#name2 {
+  background-color: rgb(208, 208, 250);
 }
 
 .playerCurrentBox {
@@ -182,6 +190,7 @@ button:hover {
   height: 100px;
   box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.1);
   top: 390px;
+  border: 1px solid;
 }
 
 #die1 {
